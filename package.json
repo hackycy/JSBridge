@@ -1,0 +1,22 @@
+{
+  "name": "@hackycy/jsbridge",
+  "version": "0.0.1",
+  "description": "jsbridge for android / ios",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hackycy/JSBridge.git"
+  },
+  "keywords": [
+    "jsbridge"
+  ],
+  "author": "hackycy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hackycy/JSBridge/issues"
+  },
+  "homepage": "https://github.com/hackycy/JSBridge#readme"
+}
