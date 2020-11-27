@@ -26,3 +26,5 @@ function generateConfig(name) {
 ["jsbridge", "jsbridge.min"].forEach(function (key) {
   config.push(generateConfig(key));
 });
+
+module.exports = config;

@@ -1,3 +1,1 @@
-const jsbridge = require('./lib/jsbridge');
-
-module.exports = jsbridge;
+module.exports = require('./lib/jsbridge');
