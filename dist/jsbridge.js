@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["jsbridge"] = factory();
+		exports["JSBridge"] = factory();
 	else
-		root["jsbridge"] = factory();
+		root["JSBridge"] = factory();
 })(self, function() {
 return /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
@@ -76,6 +76,9 @@ var invokeCallbackHandler = function (callbackId, execResult) {
     delete invokeCallbacks[callbackId];
   }
 }
+
+var readyEvent = new Event('JSBridgeReady');
+window.document.dispatchEvent(readyEvent);
 
 module.exports = {
   invoke: invoke,

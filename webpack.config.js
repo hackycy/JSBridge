@@ -11,7 +11,7 @@ function generateConfig(name) {
       path: path.resolve(__dirname, "dist"),
       filename: name + ".js",
       sourceMapFilename: name + ".map",
-      library: "jsbridge",
+      library: "JSBridge",
       libraryTarget: "umd",
     },
     optimization: {
