@@ -35,17 +35,17 @@ var userAgent = window.navigator.userAgent;
 var isAndroidWebView = userAgent.indexOf('Android') != -1;
 isIosWebView = !isAndroidWebView;
 
-var _invokeHandler = function (command, paramsString, callbackId) {
+var _invokeHandler = function (func, paramsString, callbackId) {
   if (isIosWebView) {
     // iOS
     window.webkit.messageHandlers.invokeHandler.postMessage({
-      invoke: command,
+      invoke: func,
       paramsString: paramsString,
       callbackId: callbackId,
     });
   } else {
     // Android
-    var execResult = window.invokeHandler.invoke(command, paramsString, callbackId);
+    var execResult = window.invokeHandler.invoke(func, paramsString, callbackId);
     if (typeof execResult !== 'undefined' && typeof invokeCallbacks[callbackId] === 'function' && execResult !== '') {
       try {
         execResult = JSON.parse(execResult);
@@ -58,11 +58,17 @@ var _invokeHandler = function (command, paramsString, callbackId) {
   }
 }
 
-var invoke = function (command, params, callback) {
-  var paramsString = JSON.stringify(params || {});
+var invoke = function (func, params, callback) {
+  if (!func || typeof func !== 'string') {
+    return;
+  }
+  if (typeof params !== 'object') {
+    params = {};
+  };
+  var paramsString = JSON.stringify(params);
   var callbackId = ++invokeCallbackId
   invokeCallbacks[callbackId] = callback;
-  _invokeHandler(command, paramsString, callbackId);
+  _invokeHandler(func, paramsString, callbackId);
 }
 
 var invokeCallbackHandler = function (callbackId, execResult) {
@@ -82,7 +88,7 @@ window.document.dispatchEvent(readyEvent);
 
 module.exports = {
   invoke: invoke,
-  invokeCallback: invokeCallbackHandler
+  _invokeCallback: invokeCallbackHandler
 }
 
 /***/ })
