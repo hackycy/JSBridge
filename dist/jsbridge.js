@@ -22,20 +22,21 @@ module.exports = __webpack_require__(469);
 /***/ 469:
 /***/ ((module) => {
 
-var isWebView = window.hasOwnProperty('document');
+var isWebView = window && window.hasOwnProperty('document');
 
 if (!isWebView) return;
 
 var isIosWebView = false;
 
 var invokeCallbacks = {};
+var handleRegisterCallbacks = {};
 var invokeCallbackId = 0;
 
 var userAgent = window.navigator.userAgent;
 var isAndroidWebView = userAgent.indexOf('Android') != -1;
 isIosWebView = !isAndroidWebView;
 
-var _invokeHandler = function (func, paramsString, callbackId) {
+var invokeHandler = function (func, paramsString, callbackId) {
   if (isIosWebView) {
     // iOS
     window.webkit.messageHandlers.invokeHandler.postMessage({
@@ -46,7 +47,7 @@ var _invokeHandler = function (func, paramsString, callbackId) {
   } else {
     // Android
     var execResult = window.invokeHandler.invoke(func, paramsString, callbackId);
-    if (typeof execResult !== 'undefined' && typeof invokeCallbacks[callbackId] === 'function' && execResult !== '') {
+    if (typeof invokeCallbacks[callbackId] === 'function') {
       try {
         execResult = JSON.parse(execResult);
       } catch (e) {
@@ -68,11 +69,12 @@ var invoke = function (func, params, callback) {
   var paramsString = JSON.stringify(params);
   var callbackId = ++invokeCallbackId
   invokeCallbacks[callbackId] = callback;
-  _invokeHandler(func, paramsString, callbackId);
+  invokeHandler(func, paramsString, callbackId);
 }
 
-var invokeCallbackHandler = function (callbackId, execResult) {
-  if (typeof execResult !== 'undefined' && typeof invokeCallbacks[callbackId] === 'function' && execResult !== '') {
+// invoke callback exec
+var handleInvokeCallbackFromNative = function (callbackId, execResult) {
+  if (typeof invokeCallbacks[callbackId] === 'function') {
     try {
       execResult = JSON.parse(execResult);
     } catch (e) {
@@ -83,12 +85,34 @@ var invokeCallbackHandler = function (callbackId, execResult) {
   }
 }
 
+// native call h5
+var handleMessageFromNative = function (func, paramString) {
+  try {
+    paramString = JSON.parse(paramString);
+  } catch (e) {
+    paramString = {};
+  }
+  return handleRegisterCallbacks[func](paramString)
+}
+
+// register func
+var register = function (func, executor) {
+  if (!func || typeof func !== 'string' || typeof executor !== 'function') {
+    return;
+  }
+  handleRegisterCallbacks[func] = executor;
+}
+
+// mount attr
+window._handleMessageFromNative = handleMessageFromNative;
+window._handleInvokeCallbackFromNative = handleInvokeCallbackFromNative;
+
 var readyEvent = new Event('JSBridgeReady');
 window.document.dispatchEvent(readyEvent);
 
 module.exports = {
   invoke: invoke,
-  _invokeCallback: invokeCallbackHandler
+  register: register
 }
 
 /***/ })
