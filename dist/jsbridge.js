@@ -29,25 +29,28 @@ module.exports = __webpack_require__(444);
 
 var isWebView = window && window.hasOwnProperty('document');
 
-if (!isWebView) {
-  throw new Error('unsupport');
-}
-
 var isIosWebView = false;
-
-var invokeCallbacks = {};
-var handleRegisterCallbacks = {};
-var invokeCallbackId = 0;
-
 var userAgent = window.navigator.userAgent;
 var isAndroidWebView = userAgent.indexOf('Android') !== -1;
 isIosWebView = !isAndroidWebView;
 
+// obj
+var invokeCallbacks = {};
+var handleRegisterCallbacks = {};
+var invokeCallbackId = 0;
+
 function hasBridge() {
-  if (isIosWebView) {
-    return window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.invokeHandler ? true : false;
+  try {
+    if (!isWebView) {
+      return false;
+    }
+    if (isIosWebView) {
+      return window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.invokeHandler ? true : false;
+    }
+    return window.invokeHandler ? true : false;
+  } catch (e) {
+    return false;
   }
-  return window.invokeHandler ? true : false;
 }
 
 function invokeHandler(func, paramsString, callbackId) {
@@ -91,12 +94,12 @@ function handleMessageFromNative(func, paramString) {
 // call native func
 function invoke(func, params, callback) {
   if (!hasBridge()) {
-    throw new Error('bridge is not mount!');
+    return;
   }
   if (!func || typeof func !== 'string') {
     return;
   }
-  if (typeof params !== 'object') {
+  if (!params || typeof params !== 'object') {
     params = {};
   }
   var paramsString = JSON.stringify(params);
@@ -108,7 +111,7 @@ function invoke(func, params, callback) {
 // register func, wait native call
 function register(func, executor) {
   if (!hasBridge()) {
-    throw new Error('bridge is not mount!');
+    return;
   }
   if (!func || typeof func !== 'string' || typeof executor !== 'function') {
     return;
@@ -120,8 +123,10 @@ function register(func, executor) {
 window._handleMessageFromNative = handleMessageFromNative;
 window._handleInvokeCallbackFromNative = handleInvokeCallbackFromNative;
 
-var readyEvent = new Event('JSBridgeReady');
-window.document.dispatchEvent(readyEvent);
+if (hasBridge()) {
+  var readyEvent = new Event('JSBridgeReady');
+  window.document.dispatchEvent(readyEvent);
+}
 
 module.exports = {
   invoke: invoke,
