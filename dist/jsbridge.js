@@ -9,20 +9,22 @@
 		root["JSBridge"] = factory();
 })(self, function() {
 return /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 10:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-module.exports = __webpack_require__(469);
+
+
+module.exports = __webpack_require__(444);
 
 
 /***/ }),
 
-/***/ 469:
+/***/ 444:
 /***/ ((module) => {
 
-"use strict";
 
 
 var isWebView = window && window.hasOwnProperty('document');
@@ -62,23 +64,7 @@ function invokeHandler(func, paramsString, callbackId) {
   }
 }
 
-function invoke(func, params, callback) {
-  if (!hasBridge()) {
-    throw new Error('bridge is not mount!');
-  }
-  if (!func || typeof func !== 'string') {
-    return;
-  }
-  if (typeof params !== 'object') {
-    params = {};
-  }
-  var paramsString = JSON.stringify(params);
-  var callbackId = ++invokeCallbackId;
-  invokeCallbacks[callbackId] = callback;
-  invokeHandler(func, paramsString, callbackId);
-}
-
-// invoke callback exec
+// invoke callback exec from native
 function handleInvokeCallbackFromNative(callbackId, execResult) {
   if (typeof invokeCallbacks[callbackId] === 'function') {
     try {
@@ -102,8 +88,28 @@ function handleMessageFromNative(func, paramString) {
   return handleRegisterCallbacks[func](param);
 }
 
-// register func
+// call native func
+function invoke(func, params, callback) {
+  if (!hasBridge()) {
+    throw new Error('bridge is not mount!');
+  }
+  if (!func || typeof func !== 'string') {
+    return;
+  }
+  if (typeof params !== 'object') {
+    params = {};
+  }
+  var paramsString = JSON.stringify(params);
+  var callbackId = ++invokeCallbackId;
+  invokeCallbacks[callbackId] = callback;
+  invokeHandler(func, paramsString, callbackId);
+}
+
+// register func, wait native call
 function register(func, executor) {
+  if (!hasBridge()) {
+    throw new Error('bridge is not mount!');
+  }
   if (!func || typeof func !== 'string' || typeof executor !== 'function') {
     return;
   }

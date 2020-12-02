@@ -1,1 +1,3 @@
-module.exports = require('./lib/jsbridge');
+'use strict';
+
+module.exports = require('./lib/bridge');
