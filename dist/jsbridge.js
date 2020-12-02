@@ -36,6 +36,14 @@ var userAgent = window.navigator.userAgent;
 var isAndroidWebView = userAgent.indexOf('Android') != -1;
 isIosWebView = !isAndroidWebView;
 
+var hasBridge = function() {
+  if (isIosWebView) {
+    return window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.invokeHandler ? true : false;
+  } else {
+    return window.invokeHandler ? true : false;
+  }
+}
+
 var invokeHandler = function (func, paramsString, callbackId) {
   if (isIosWebView) {
     // iOS
@@ -60,6 +68,9 @@ var invokeHandler = function (func, paramsString, callbackId) {
 }
 
 var invoke = function (func, params, callback) {
+  if (!hasBridge()) {
+    throw new Error('bridge is not mount!');
+  }
   if (!func || typeof func !== 'string') {
     return;
   }
