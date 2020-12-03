@@ -67,7 +67,7 @@ function invokeHandler(func, paramsString, callbackId) {
   }
 }
 
-// invoke callback exec from native
+// JS主动调用原生方法后的回调处理
 function handleInvokeCallbackFromNative(callbackId, execResult) {
   if (typeof invokeCallbacks[callbackId] === 'function') {
     try {
@@ -76,11 +76,12 @@ function handleInvokeCallbackFromNative(callbackId, execResult) {
       execResult = {};
     }
     invokeCallbacks[callbackId](execResult);
-    delete invokeCallbacks[callbackId];
   }
+  // 无论如何都需要进行删除定义的回调
+  delete invokeCallbacks[callbackId];
 }
 
-// native call h5
+// 原生主动调用JS方法
 function handleMessageFromNative(func, paramString) {
   var param;
   try {
@@ -91,7 +92,7 @@ function handleMessageFromNative(func, paramString) {
   return handleRegisterCallbacks[func](param);
 }
 
-// call native func
+// JS主动调用原生方法
 function invoke(func, params, callback) {
   if (!hasBridge()) {
     return;
@@ -108,7 +109,7 @@ function invoke(func, params, callback) {
   invokeHandler(func, paramsString, callbackId);
 }
 
-// register func, wait native call
+// 注册函数，等待原生主动调用
 function register(func, executor) {
   if (!hasBridge()) {
     return;
