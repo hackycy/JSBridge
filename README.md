@@ -25,7 +25,7 @@ $ npm i --save @hackycy/jsbridge
 <script src="https://unpkg.com/@hackycy/jsbridge@${version}/dist/jsbridge.min.js"></script>
 
 <!-- developer -->
-<script src="https://unpkg.com/@hackycy/jsbridge@${version}/dist/jsbridge.min.js"></script>
+<script src="https://unpkg.com/@hackycy/jsbridge@${version}/dist/jsbridge.js"></script>
 ```
 
 > 将`${version}`改为最新版本号或自行指定
