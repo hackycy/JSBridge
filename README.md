@@ -20,7 +20,11 @@ $ npm i --save @hackycy/jsbridge
 
 **cdn**
 
-``` javascript
+``` html
+<!-- production -->
+<script src="https://unpkg.com/@hackycy/jsbridge@${version}/dist/jsbridge.min.js"></script>
+
+<!-- developer -->
 <script src="https://unpkg.com/@hackycy/jsbridge@${version}/dist/jsbridge.min.js"></script>
 ```
 
@@ -38,7 +42,7 @@ window.JSBridge.invoke('log', null, callback);
 
 // 会将原生端返回的参数在该回调中参数传入
 function callback(obj) {
-	alert(obj)
+  alert(obj);
 }
 ```
 
