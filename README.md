@@ -24,11 +24,11 @@ $ npm i --save @hackycy/jsbridge
 <!-- production -->
 <script src="https://unpkg.com/@hackycy/jsbridge@${version}/dist/jsbridge.min.js"></script>
 
-<!-- developer -->
+<!-- development -->
 <script src="https://unpkg.com/@hackycy/jsbridge@${version}/dist/jsbridge.js"></script>
 ```
 
-> 将`${version}`改为最新版本号或自行指定
+> 将`${version}`改为可用版本号
 
 ### 使用
 
