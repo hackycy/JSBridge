@@ -8,7 +8,9 @@
 [download-image]: https://img.shields.io/npm/dm/@hackycy/jsbridge.svg?style=flat-square
 [download-url]: https://npmjs.org/package/@hackycy/jsbridge
 
-**JSBridge For Android / iOS，统一易用的Javascript bridge。需配合[SuperAgentWeb-Android](https://github.com/hackycy/SuperAgentWeb-Android)及[SuperAgentWeb-iOS](https://github.com/hackycy/SuperAgentWeb-iOS)使用**
+**JSBridge For Android / iOS，统一易用的Javascript bridge。**
+
+**需配合[SuperAgentWeb-Android](https://github.com/hackycy/SuperAgentWeb-Android)及[SuperAgentWeb-iOS](https://github.com/hackycy/SuperAgentWeb-iOS)使用**
 
 ### 安装
 
