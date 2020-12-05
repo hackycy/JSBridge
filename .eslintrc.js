@@ -35,7 +35,7 @@ module.exports = {
     "no-cond-assign": [2, "except-parens"], // http://eslint.org/docs/rules/no-cond-assign
     "no-console": 1,                 // http://eslint.org/docs/rules/no-console
     "no-debugger": 1,                // http://eslint.org/docs/rules/no-debugger
-    "no-alert": 1,                   // http://eslint.org/docs/rules/no-alert
+    "no-alert": 0,                   // http://eslint.org/docs/rules/no-alert
     "no-constant-condition": 1,      // http://eslint.org/docs/rules/no-constant-condition
     "no-dupe-keys": 2,               // http://eslint.org/docs/rules/no-dupe-keys
     "no-duplicate-case": 2,          // http://eslint.org/docs/rules/no-duplicate-case
