@@ -34,7 +34,7 @@ $ npm i --save @hackycy/jsbridge
 
 ### 使用
 
-在Javascript中调用原生Api
+#### 异步调用Native
 
 ``` javascript
 /**
@@ -46,6 +46,16 @@ window.JSBridge.invoke('log', null, callback);
 function callback(obj) {
   alert(obj);
 }
+```
+
+#### 同步调用Native
+
+``` javascript
+/**
+* 第一个参数为函数名称，第二个参数为需要传递的参数，必须为Object对象类型，第三个参数为回调
+*/
+var result = window.JSBridge.invokeSync('log', null);
+alert(typeof result);
 ```
 
 ### License
