@@ -1,5 +1,14 @@
-window.JSBridge =
-/******/ (() => { // webpackBootstrap
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["JSBridge"] = factory();
+	else
+		root["JSBridge"] = factory();
+})(self, function() {
+return /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
@@ -228,4 +237,5 @@ module.exports = {
 /******/ 	return __webpack_require__(10);
 /******/ })()
 ;
+});
 //# sourceMappingURL=jsbridge.map
