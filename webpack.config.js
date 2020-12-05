@@ -12,7 +12,7 @@ function generateConfig(name) {
       filename: name + ".js",
       sourceMapFilename: name + ".map",
       library: "JSBridge",
-      libraryTarget: "window",
+      libraryTarget: "umd",
     },
     optimization: {
       minimize: uglify,
