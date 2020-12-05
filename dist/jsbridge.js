@@ -30,6 +30,9 @@ var invokeCallbacks = {};
 var handleRegisterCallbacks = {};
 var invokeCallbackId = 0;
 
+// sync invoke use url scheme
+var urlScheme = 'jsbridge://';
+
 /**
  * 用于判断环境是否可用jsbridge
  */
@@ -39,7 +42,11 @@ function hasBridge() {
       return false;
     }
     if (isIosWebView) {
-      return window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers._invokeHandler ? true : false;
+      return window.webkit &&
+        window.webkit.messageHandlers &&
+        window.webkit.messageHandlers._invokeHandler
+        ? true
+        : false;
     }
     return window._invokeHandler ? true : false;
   } catch (e) {
@@ -64,7 +71,6 @@ function handleInvokeCallbackFromNative(callbackId, execResult) {
   // 无论如何都需要进行删除定义的回调
   delete invokeCallbacks[callbackId];
 }
-
 
 /**
  * 原生主动调用JS方法
@@ -127,18 +133,14 @@ function invoke(func, params, callback) {
  * real sync invoke
  * @param {String} func unique name
  * @param {String} paramsString 参数
- * @param {Number} callbackId 自增的callbackId
+ * @return {String}
  */
-function invokeSyncHandler(func, paramsString, callbackId) {
-  if (isIosWebView) {
-    // TODO
-  } else {
-    var syncResult = window._invokeHandler.invokeSync(func, paramsString, callbackId);
-    try {
-      return JSON.parse(syncResult)
-    } catch(e) {
-      return syncResult;
-    }
+function invokeSyncHandler(func, paramsString) {
+  var syncResult = window.prompt(urlScheme + func, paramsString);
+  try {
+    return JSON.parse(syncResult);
+  } catch (e) {
+    return syncResult;
   }
 }
 
@@ -146,22 +148,19 @@ function invokeSyncHandler(func, paramsString, callbackId) {
  * JS主动调用原生方法，同步返回
  * @param {String} func unique name
  * @param {Object} params object
- * @param {Function} callback 回调函数
  */
-function invokeSync(func, params, callback) {
+function invokeSync(func, params) {
   if (!hasBridge()) {
-    return;
+    return undefined;
   }
   if (!func || typeof func !== 'string') {
-    return;
+    return undefined;
   }
   if (!params || typeof params !== 'object') {
     params = {};
   }
   var paramsString = JSON.stringify(params);
-  var callbackId = ++invokeCallbackId;
-  invokeCallbacks[callbackId] = callback;
-  invokeSyncHandler(func, paramsString, callbackId);
+  return invokeSyncHandler(func, paramsString);
 }
 
 /**
@@ -189,8 +188,8 @@ if (hasBridge()) {
 }
 
 module.exports = {
-  invoke,
-  invokeSync,
+  invoke: invoke,
+  invokeSync: invokeSync,
   register: register
 };
 
