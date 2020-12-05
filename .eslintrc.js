@@ -8,8 +8,7 @@ module.exports = {
     "window": true,
   },
   "env": {
-    "browser": true,
-    "node": true
+    "browser": true
   },
   "rules": {
     /**
