@@ -2,7 +2,7 @@
   "name": "@hackycy/jsbridge",
   "version": "0.0.9",
   "description": "jsbridge for android / ios",
-  "browser": "index.js",
+  "main": "index.js",
   "scripts": {
     "build": "webpack --config webpack.config.js",
     "deploy": "npm run build && npm publish --access public"
