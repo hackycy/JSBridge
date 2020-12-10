@@ -1,30 +1,21 @@
-const webpack = require("webpack");
-const path = require("path");
+'use strict';
 
-const config = [];
+var webpack = require('webpack');
+var path = require('path');
 
-function generateConfig(name) {
-  var uglify = name.indexOf("min") > -1;
-  var config = {
-    entry: "./index.js",
-    output: {
-      path: path.resolve(__dirname, "dist"),
-      filename: name + ".js",
-      sourceMapFilename: name + ".map",
-      library: "JSBridge",
-      libraryTarget: "umd",
-    },
-    optimization: {
-      minimize: uglify,
-    },
-    devtool: "source-map",
-  };
-
-  return config;
-}
-
-["jsbridge", "jsbridge.min"].forEach(function (key) {
-  config.push(generateConfig(key));
-});
-
-module.exports = config;
+module.exports = {
+  entry: {
+    jsbridge: './index.js'
+  },
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].min.js',
+    library: 'JSBridge',
+    libraryTarget: 'umd',
+    umdNamedDefine: true
+  },
+  devtool: false,
+  stats: {
+    colors: true
+  }
+};
