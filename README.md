@@ -25,9 +25,6 @@ $ npm i --save @hackycy/jsbridge
 ``` html
 <!-- production -->
 <script src="https://unpkg.com/@hackycy/jsbridge@${version}/dist/jsbridge.min.js"></script>
-
-<!-- development -->
-<script src="https://unpkg.com/@hackycy/jsbridge@${version}/dist/jsbridge.js"></script>
 ```
 
 > 将`${version}`改为可用版本号
