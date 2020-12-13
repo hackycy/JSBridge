@@ -12,7 +12,8 @@
     "url": "git+https://github.com/hackycy/JSBridge.git"
   },
   "keywords": [
-    "jsbridge"
+    "jsbridge",
+    "hybrid"
   ],
   "author": "hackycy",
   "license": "MIT",
